@@ -1,0 +1,57 @@
+<label class="checkbox">
+    <input type="checkbox" class="spellPointUpdate"
+           name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.autoCalculate"
+        {{checked spellbook.spellPoints.autoCalculate}}>
+    {{localize "PF1SP.AutoCalculateSpellPoints"}}
+</label>
+
+{{#if spellbook.spellPoints.autoCalculate}}
+    <label class="checkbox">
+        <input type="checkbox" class="spellPointUpdate"
+               name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.eldritchAptitude"
+            {{checked spellbook.spellPoints.eldritchAptitude}}>
+        {{localize "PF1SP.EldritchAptitude"}}
+    </label>
+
+    <div class="radios">
+        <label class="checkbox">
+            <input type="radio" class="spellPointUpdate"
+                   name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.prepMode"
+                   value="prepared"
+                {{checked (eq spellbook.spellPoints.prepMode "prepared")}}>
+            {{localize "PF1.SpellPrepPrepared"}}
+        </label>
+        <label
+                class="checkbox">
+            <input type="radio" class="spellPointUpdate"
+                   name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.prepMode"
+                   value="spontaneous"
+                {{checked (eq spellbook.spellPoints.prepMode "spontaneous")}}>
+            {{localize "PF1.SpellPrepSpontaneous"}}
+        </label>
+    </div>
+    <div class="radios">
+        <label class="checkbox">
+            <input type="radio" class="spellPointUpdate"
+                   name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.autoAmount"
+                   value="low"
+                {{checked (eq spellbook.spellPoints.autoAmount "low")}}>
+            {{localize "PF1.Low"}}
+        </label>
+        <label class="checkbox">
+            <input
+                    type="radio" class="spellPointUpdate"
+                    name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.autoAmount"
+                    value="medium"
+                {{checked (eq spellbook.spellPoints.autoAmount "medium")}}>
+            {{localize "PF1.Medium"}}
+        </label>
+        <label class="checkbox">
+            <input type="radio" class="spellPointUpdate"
+                   name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.autoAmount"
+                   value="high"
+                {{checked (eq spellbook.spellPoints.autoAmount "high")}}>
+            {{localize "PF1.High"}}
+        </label>
+    </div>
+{{/if}}

@@ -1,0 +1,9 @@
+{
+  "PF1SP.AutoCalculateSpellPoints": "Auto Calculate Spell Points",
+  "PF1SP.ExtraSpellPoints": "Extra Spell Points",
+  "PF1SP.Formula": "Formula",
+  "PF1SP.EldritchAptitude": "Eldritch Aptitude",
+  "PF1SP.DailyCastCount": "Daily Cast Count",
+  "PF1SP.EldritchFocus": "Eldritch Focus",
+  "PF1SP.ExhaustedAndSpellpointsTooLow": "Your spell points are too low to cast while exhausted."
+}

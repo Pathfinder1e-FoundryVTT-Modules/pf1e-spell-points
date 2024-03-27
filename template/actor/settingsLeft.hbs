@@ -1,0 +1,19 @@
+<div class="help-text">
+    <i class="help-icon fas fa-info-circle"></i>
+    {{localize "PF1.AutoSpellClassLevelOffset.InfoBox"}}
+</div>
+
+<div class="flexrow">
+    <h3>{{localize "PF1.AutoSpellClassLevelOffset.Formula"}}</h3>
+    <input class="formula spellPointUpdate" type="text"
+           name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.classLevelModification"
+           value="{{spellbook.spellPoints.classLevelModification}}"
+           placeholder="{{localize "PF1SP.Formula"}}">
+</div>
+<div class="flexrow">
+    <h3>{{localize "PF1SP.ExtraSpellPoints"}}</h3>
+    <input class="formula spellPointUpdate" type="text"
+           name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.extraPointsFormula"
+           value="{{spellbook.spellPoints.extraPointsFormula}}"
+           placeholder="{{localize "PF1SP.Formula"}}">
+</div>
