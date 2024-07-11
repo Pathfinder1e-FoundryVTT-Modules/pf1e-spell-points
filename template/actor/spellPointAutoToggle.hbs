@@ -1,0 +1,24 @@
+<div class="flexrow stacked autopoints">
+    <label class="checkbox" {{#if spellbook.autoSpellLevelCalculation}}data-tooltip="PF1.AutoSlotIncompatible"{{/if}}>
+        <input type="checkbox" name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.useSystem"
+            {{disabled spellbook.autoSpellLevelCalculation}}
+            {{checked spellbook.spellPoints.useSystem}}> {{localize "PF1.UseSpellPoints"}}
+    </label>
+    <label class="checkbox"{{#if (not spellbook.autoSpellLevelCalculation)}}data-tooltip="{{localize
+            PF1SP.RequiresSpellPoints}}"{{/if}}>
+        <input type="checkbox" name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.autoCalculate"
+            {{disabled (not spellbook.spellPoints.useSystem)}}
+            {{checked spellbook.spellPoints.autoCalculate}}>
+        {{localize "PF1SP.AutoCalculateSpellPoints"}}
+    </label>
+</div>
+{{#if spellbook.spellPoints.useSystem}}
+    <div class="flexrow stacked autopoints">
+        <label class="checkbox">
+            <input type="checkbox"
+                   name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.eldritchAptitude"
+                {{checked spellbook.spellPoints.eldritchAptitude}}>
+            {{localize "PF1SP.EldritchAptitude"}}
+        </label>
+    </div>
+{{/if}}

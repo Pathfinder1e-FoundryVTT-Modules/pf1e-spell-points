@@ -1,3 +1,7 @@
 .spell-uses .spell-cost-increased {
     color: 	#400000;
 }
+
+.pf1.sheet.actor .tab.spellbook .spellbook-configuration .spellbook-info .spell-settings .autopoints {
+    justify-content: space-between;
+}

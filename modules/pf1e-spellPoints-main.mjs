@@ -1,23 +1,21 @@
 import {
     displaySpellCost, displaySpellsRemaining, extendActorTemplate,
     extendSpellPointsOptions,
-    resetSpellCosts, subtractPreparedCantripCostOnRest
+    resetSpellCosts,
+    subtractPreparedCantripCostOnRest
 } from "./documents/actor/actor-base.mjs";
 import {extendItemSpellPointOptions, extendSpellTemplate} from "./documents/item/item-spell.mjs";
 
-Hooks.on("renderActorSheetPF", extendSpellPointsOptions);
-Hooks.on("renderActorSheetPF", displaySpellCost);
-Hooks.on("renderActorSheetPF", displaySpellsRemaining);
-Hooks.on("pf1ActorRest", resetSpellCosts);
-Hooks.on("pf1ActorRest", subtractPreparedCantripCostOnRest);
-
-Hooks.on("renderItemSheetPF", extendItemSpellPointOptions);
+export const MODULE_NAME = "pf1e-spell-points";
 
 export let spellPointTemplates = {
+    spellPointAutoToggle: `modules/pf1e-spell-points/template/actor/spellPointAutoToggle.hbs`,
+
     actorSettingsLeft: `modules/pf1e-spell-points/template/actor/settingsLeft.hbs`,
     actorSettingsRight: `modules/pf1e-spell-points/template/actor/settingsRight.hbs`,
     spellSettings: `modules/pf1e-spell-points/template/item/spellSettings.hbs`,
 };
+
 Hooks.once("setup", () => {
     for (let i in spellPointTemplates) {
         const templatePath = spellPointTemplates[i];
@@ -25,7 +23,7 @@ Hooks.once("setup", () => {
     }
 });
 
-Hooks.on("pf1PostInit", () => {
+Hooks.once("pf1PostInit", () => {
     pf1.documents.actor = Object.assign(pf1.documents.actor, {
         ActorBasePF: extendActorTemplate(pf1.documents.actor.ActorBasePF),
         ActorCharacterPF: extendActorTemplate(pf1.documents.actor.ActorCharacterPF),
@@ -47,3 +45,10 @@ Hooks.on("pf1PostInit", () => {
         spell: extendSpellTemplate(CONFIG.Item.documentClasses.spell)
     });
 });
+
+Hooks.on("renderItemSheetPF", extendItemSpellPointOptions);
+Hooks.on("renderActorSheetPF", extendSpellPointsOptions);
+Hooks.on("renderActorSheetPF", displaySpellCost);
+Hooks.on("renderActorSheetPF", displaySpellsRemaining);
+Hooks.on("pf1ActorRest", resetSpellCosts);
+Hooks.on("pf1ActorRest", subtractPreparedCantripCostOnRest);

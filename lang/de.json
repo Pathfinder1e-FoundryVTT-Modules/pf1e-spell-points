@@ -5,5 +5,6 @@
   "PF1SP.EldritchAptitude": "Magische Begabung",
   "PF1SP.DailyCastCount": "Tägliche Anwendungen",
   "PF1SP.EldritchFocus": "Magischer Fokus",
-  "PF1SP.ExhaustedAndSpellpointsTooLow": "Deine Zauberpunkte sind zu niedrig um erschöpft zu zaubern."
+  "PF1SP.ExhaustedAndSpellpointsTooLow": "Deine Zauberpunkte sind zu niedrig um erschöpft zu zaubern.",
+  "PF1SP.RequireSpellPoints": "Benötigt Zauberpunkte, dass aktiviert ist."
 }
