@@ -1,6 +1,3 @@
-# Pathfinder 1e - Hex Grid Support
+# Pathfinder 1e - Spell Points
 
-A collection of patches to the Pathfinder 1e system to add support for hex grids.
-
-Due to the nature of the code, this module overwrites some core PF1 functions, which may cause compatibility issues with
-normal square grids. It is recommended to only enable this module when using hex grids.
+A reference implementation of the Spellpoint Rules of the [Houserule Handbooks: Spellpoints](https://www.drivethrurpg.com/en/product/105022/houserule-handbooks-spellpoints) by Rogue Genius Games.
