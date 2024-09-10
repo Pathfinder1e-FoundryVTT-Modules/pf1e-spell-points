@@ -79,9 +79,7 @@ export function extendSpellTemplate(SpellTemplate) {
 
         getDefaultChargeFormula() {
             if (this.useSpellPoints()) {
-                return this.system.spellPoints.cost !== ""
-                    ? this.system.spellPoints.cost
-                    : this.getSpellPointCostBaseFormula();
+                return this.system?.spellPoints?.cost || this.getSpellPointCostBaseFormula();
             }
 
             return super.getDefaultChargeFormula();
@@ -90,7 +88,7 @@ export function extendSpellTemplate(SpellTemplate) {
         getSpellPointCostBaseFormula() {
             const spellbook = this.spellbook;
 
-            if (!spellbook.spellPoints.useSystem) {
+            if (!spellbook.spellPoints?.useSystem) {
                 return "1 + @sl";
             }
 

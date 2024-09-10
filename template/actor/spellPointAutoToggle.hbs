@@ -20,5 +20,11 @@
                 {{checked spellbook.spellPoints.eldritchAptitude}}>
             {{localize "PF1SP.EldritchAptitude"}}
         </label>
+        <label class="checkbox">
+            <input type="checkbox"
+                   name="system.attributes.spells.spellbooks.{{spellbookId}}.spellPoints.freeCantrips"
+                {{checked spellbook.spellPoints.freeCantrips}}>
+            {{localize "PF1SP.FreeCantrips"}}
+        </label>
     </div>
 {{/if}}

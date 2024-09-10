@@ -2,7 +2,6 @@ import {
     displaySpellCost, displaySpellsRemaining, extendActorTemplate,
     extendSpellPointsOptions,
     resetSpellCosts,
-    subtractPreparedCantripCostOnRest
 } from "./documents/actor/actor-base.mjs";
 import {extendItemSpellPointOptions, extendSpellTemplate} from "./documents/item/item-spell.mjs";
 
@@ -51,4 +50,3 @@ Hooks.on("renderActorSheetPF", extendSpellPointsOptions);
 Hooks.on("renderActorSheetPF", displaySpellCost);
 Hooks.on("renderActorSheetPF", displaySpellsRemaining);
 Hooks.on("pf1ActorRest", resetSpellCosts);
-Hooks.on("pf1ActorRest", subtractPreparedCantripCostOnRest);

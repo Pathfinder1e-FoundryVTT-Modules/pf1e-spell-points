@@ -75,6 +75,8 @@ const spellsAvailableMax = {
 }
 
 export function displaySpellCost(sheet, [html], data) {
+    if(data.spellbookData === undefined) return;
+
     for (const [spellbookId, spellbook] of Object.entries(data.spellbookData)) {
         if (!spellbook.spellPoints?.useSystem) {
             // Bail out if we're not using spell points
@@ -102,6 +104,8 @@ export function displaySpellCost(sheet, [html], data) {
 
 export function displaySpellsRemaining(sheet, [html], data) {
     const rollData = sheet.actor.getRollData();
+
+    if(data.spellbookData === undefined) return;
 
     for (const [spellbookId, spellbook] of Object.entries(data.spellbookData)) {
         if (!spellbook.spellPoints?.useSystem || !spellbook.spellPoints?.autoCalculate) {
@@ -215,40 +219,6 @@ function createMessage(message, value = 0, unsigned = false, isWarning = false) 
     return wrapper;
 }
 
-export function subtractPreparedCantripCostOnRest(actor, options, updateData, itemUpdates) {
-    if (!options.restoreDailyUses) {
-        return;
-    }
-
-    let spellbooks = actor.system.attributes.spells.spellbooks;
-
-    actor.itemTypes.spell.forEach((item) => {
-        if (item.system.level > 0) {
-            return;
-        }
-
-        if (!item.system.preparation.value) {
-            return;
-        }
-
-        const spellbook = spellbooks[item.system.spellbook];
-        if (!spellbook.spellPoints?.useSystem || !spellbook.spellPoints.autoCalculate) {
-            // Bail out if we're not using spell points
-            return;
-        }
-
-        if (spellbook.spellPreparationMode !== 'prepared') {
-            return;
-        }
-
-        spellbook.spellPoints.value--;
-    });
-
-    actor.update({
-        "system.attributes.spells.spellbooks": spellbooks
-    })
-}
-
 export function resetSpellCosts(actor, options, updateData, itemUpdates) {
     if (!options.restoreDailyUses) {
         return;
@@ -275,6 +245,8 @@ export function resetSpellCosts(actor, options, updateData, itemUpdates) {
 
 export function extendSpellPointsOptions(sheet, [html], data) {
     html = $(html);
+
+    if(data.spellbookData === undefined) return;
 
     for (const [spellbookId, spellbook] of Object.entries(data.spellbookData)) {
         const spellbookHtml = html.find(`.spellbook-group[data-tab="${spellbookId}"]`);
@@ -393,10 +365,21 @@ export function extendActorTemplate(ActorTemplate) {
                 if (extraPointsRoll.err) console.error(extraPointsRoll.err, spellbook.spellPoints.extraPointsFormula);
 
                 const spellPoints = basePoints + attributeBonus + extraPointsRoll.total;
+                let preparedCantripCost = 0;
+                if(spellbook.spellPreparationMode === 'prepared' && !spellbook.spellPoints?.freeCantrips) {
+                    preparedCantripCost += this.itemTypes.spell.filter(spell =>
+                        spell.system.spellbook === spellbookId
+                        && spell.system.level === 0
+                        && spell.system.preparation.value
+                    ).length
+                }
 
+                spellbook.spellPoints.maxFormula = "" + spellPoints;
                 spellbook.spellPoints.max = spellPoints;
-                spellbook.spellPoints.restore = spellPoints;
+                spellbook.spellPoints.restore = spellPoints - spellbook.spellPoints.value - preparedCantripCost;
+                spellbook.spellPoints.restoreFormula = "" + spellbook.spellPoints.restore;
                 spellbook.spellPoints.value = Math.min(spellPoints, spellbook.spellPoints.value);
+                console.log(spellbook.spellPoints);
             }
         }
     }
