@@ -121,7 +121,8 @@ export function displaySpellsRemaining(sheet, [html], data) {
         const allLevelMod = RollPF.safeRollSync(allLevelModFormula, rollData).total;
 
         for (let spellLevel = 0; spellLevel <= 9; spellLevel++) {
-            const section = html.querySelector(`.book-${spellbookId}-body > .item-list[data-level="${spellLevel}"]`);
+            const section = html.querySelector(`.item-list[data-list="spell-${spellbookId}-${spellLevel}"]`);
+            if(!section) continue;
 
             let notificationTarget = section.querySelector(".spell-notifications");
             if (notificationTarget) {
@@ -291,15 +292,11 @@ export function extendSpellPointsOptions(sheet, [html], data) {
 export function extendActorTemplate(ActorTemplate) {
     return class SpellPointActorTemplate extends ActorTemplate {
         getEffectiveSpellPointCasterLevel(spellbook) {
-            let casterLevel = +spellbook.cl.total
-            if (this.system.conditions.wtWounded) {
-                casterLevel += 2;
-            }
-            if (this.system.conditions.wtCritical) {
-                casterLevel += 4;
-            }
+            const sbClass = typeof spellbook.class === "string" ? spellbook.class : spellbook.classId;
+            const baseLevel = this.classes[sbClass]?.level || 0;
+            const bonusLevel = RollPF.safeRollSync(spellbook.spellPoints?.classLevelModification || "");
 
-            return Math.clamped(casterLevel, 0, 20);
+            return +baseLevel + +bonusLevel;
         }
 
         _updateSpellBook(bookId, rollData, cache) {
@@ -344,22 +341,22 @@ export function extendActorTemplate(ActorTemplate) {
                 } else {
                     switch (spellbook.casterType) {
                         case 'low':
-                            maxAttributeBonus = Math.clamped(Math.ceil((classLevel - 3) / 3), 0, 4);
+                            maxAttributeBonus = Math.clamp(Math.ceil((classLevel - 3) / 3), 0, 4);
                             break;
 
                         case 'med':
-                            maxAttributeBonus = Math.clamped(Math.ceil(classLevel / 3), 0, 6);
+                            maxAttributeBonus = Math.clamp(Math.ceil(classLevel / 3), 0, 6);
                             break;
 
                         case 'high':
                             const offset = spellbook.spellPreparationMode === 'prepared' ? 0 : 1;
-                            maxAttributeBonus = Math.clamped(Math.ceil((classLevel - offset) / 2), 0, 9);
+                            maxAttributeBonus = Math.clamp(Math.ceil((classLevel - offset) / 2), 0, 9);
                             break;
                     }
                 }
 
                 const attributeModifier = spellbook.ability ? actorData.abilities[spellbook.ability].mod : 0;
-                const attributeBonus = Math.clamped(attributeModifier, 0, maxAttributeBonus);
+                const attributeBonus = Math.clamp(attributeModifier, 0, maxAttributeBonus);
 
                 const extraPointsRoll = RollPF.safeRollSync(spellbook.spellPoints.extraPointsFormula || "0", rollData, {}, {});
                 if (extraPointsRoll.err) console.error(extraPointsRoll.err, spellbook.spellPoints.extraPointsFormula);
@@ -379,7 +376,6 @@ export function extendActorTemplate(ActorTemplate) {
                 spellbook.spellPoints.restore = spellPoints - spellbook.spellPoints.value - preparedCantripCost;
                 spellbook.spellPoints.restoreFormula = "" + spellbook.spellPoints.restore;
                 spellbook.spellPoints.value = Math.min(spellPoints, spellbook.spellPoints.value);
-                console.log(spellbook.spellPoints);
             }
         }
     }

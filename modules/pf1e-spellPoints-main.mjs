@@ -35,7 +35,6 @@ Hooks.once("pf1PostInit", () => {
     });
 
     CONFIG.Actor.documentClasses = Object.assign(CONFIG.Actor.documentClasses, {
-        basic: extendActorTemplate(CONFIG.Actor.documentClasses.basic),
         character: extendActorTemplate(CONFIG.Actor.documentClasses.character),
         npc: extendActorTemplate(CONFIG.Actor.documentClasses.npc)
     })
